@@ -1,0 +1,134 @@
+#!/bin/bash
+
+scriptsDir=/home/scriptdevil/.config/herbstluftwm
+
+function hc() {
+    /home/scriptdevil/FakeRoot/bin/herbstclient "$@"
+}
+
+source /home/scriptdevil/.config/herbstluftwm/colors.sh
+
+hc emit_hook reload
+
+hc key unbind --all
+
+urxvtd &
+
+
+# Additional Scripts
+hfsdir="$HOME/.config/herbstluftwm/scripts"
+source "$hfsdir/colors"
+
+#Tags
+TAG_NAMES=(web edit pdf shell hamster downloads video mail)
+hc rename default "web"
+for i in ${!TAG_NAMES[@]} ; do
+    hc add "${TAG_NAMES[$i]}"
+done
+
+Mod=Mod4
+hc keybind $Mod-Shift-F11 quit
+hc keybind $Mod-F5 reload
+hc keybind $Mod-F4 close
+hc keybind $Mod-F2 spawn gmrun
+
+#Window management
+hc keybind $Mod-Shift-f fullscreen toggle
+hc keybind $Mod-p pseudotile toggle
+hc keybind $Mod-s floating toggle
+hc keybind $Mod-space cycle_layout 1
+
+hc keybind $Mod-v split vertical 0.5
+hc keybind $Mod-h split horizontal 0.5
+hc keybind $Mod-r remove
+
+# Quick-Launch
+hc keybind $Mod-e spawn dmenu_run -i -nb "${color['black']}" -nf "${color['brightblack']}" -sb "${color['brightgreen']}" -sf "${color['black']}" 	  			 
+hc keybind $Mod-i spawn emacsclient -c
+hc keybind $Mod-p spawn zathura
+hc keybind $Mod-t spawn urxvtc
+
+
+## resizing
+RESIZESTEP=0.05
+hc keybind $Mod-Control-Left resize left +$RESIZESTEP
+hc keybind $Mod-Control-Down resize down +$RESIZESTEP
+hc keybind $Mod-Control-Up resize up +$RESIZESTEP
+hc keybind $Mod-Control-Right resize right +$RESIZESTEP
+
+## mouse
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Button2 resize
+#hc mousebind $Mod-Button3 zoom
+
+## focus
+hc keybind $Mod-Tab        cycle_all +1
+hc keybind $Mod-Shift-Tab  cycle_all -1
+hc keybind $Mod-c cycle +1
+hc keybind $Mod-Shift-c cycle -1
+#
+hc keybind $Mod-Left  focus left
+hc keybind $Mod-Down focus down
+hc keybind $Mod-Up    focus up
+hc keybind $Mod-Right focus right
+# 
+hc keybind $Mod-Shift-Left  shift left
+hc keybind $Mod-Shift-Down  shift down
+hc keybind $Mod-Shift-Up    shift up
+hc keybind $Mod-Shift-Right shift right
+
+hc keybind $Mod-o spawn /home/scriptdevil/.config/herbstluftwm/opensplit.sh h 0.5
+hc keybind $Mod-Shift-o spawn $scriptsDir/opensplit.sh v 0.5
+#hc keybind XF86MonBrightnessUp spawn xbacklight +20
+#hc keybind XF86MonBrightnessDown spawn xbacklight -20
+hc keybind XF86AudioLowerVolume spawn amixer -- sset Master playback 2dB-
+hc keybind XF86AudioRaiseVolume spawn amixer -- sset Master playback 2dB+
+hc keybind XF86AudioMute spawn amixer -- sset Master toggle
+hc keybind XF86AudioNext spawn mpc -p 6666 next
+hc keybind XF86AudioPrev spawn mpc -p 6666 prev
+hc keybind XF86Audio spawn mpc next
+
+hc set frame_border_normal_color '#111111'
+hc set frame_border_active_color '#bbbbbb'
+hc set frame_bg_normal_color '#111111'
+hc set frame_bg_active_color '#111111'
+hc set frame_bg_transparent 1
+
+#hc set frame_border_normal_color '#111111'
+#hc set frame_border_active_color '#bbbbbb'
+#hc set frame_bg_normal_color '#111111'
+#hc set frame_bg_active_color '#111111'
+hc set frame_bg_transparent 1
+
+hc set frame_border_width 1
+hc set window_border_width 0
+#hc set window_border_normal_color '#111111'
+hc set window_border_normal_color '#6E7F80'
+#hc set window_border_active_color '#bbbbbb'
+hc set window_border_active_color '#8DB600'
+hc set always_show_frame 1
+hc set window_gap 0
+hc set frame_gap 1
+hc set default_frame_layout 2
+hc set snap_distance 0
+hc set snap_gap 0
+
+## rules
+hc unrule -F
+hc rule focus=on
+# hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+hc rule class~'([gG]mrun)' pseudotile=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK)' manage=off
+#
+#hc rule class~'(MPlayer|Vlc)' tag='video'
+hc rule class~'Firefox' tag='web'
+hc rule class~'Opera' tag='web'
+hc rule class~'[gG]vim' tag='edit'
+
+
+xchainkeys &
+~/.config/herbstluftwm/panel.sh &
+setxkbmap us -variant colemak
+

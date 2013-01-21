@@ -1,0 +1,6 @@
+source ~/dotfiles/zsh/options.zsh
+source ~/dotfiles/zsh/completion.zsh
+source ~/dotfiles/zsh/aliases.zsh
+source ~/dotfiles/zsh/utils.zsh
+
+

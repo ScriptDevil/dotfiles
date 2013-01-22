@@ -16,7 +16,7 @@ symlink_if_not_present()
 }
 
 symlink_if_not_present ~/.zshenv $dotfilesdir/zsh/zshenv.zsh
-symlink_if_not_present ~/.zshrc $dotfilesdir/zsh/zshrc.zsh
+symlink_if_not_present ~/.zshrc $dotfilesdir/zsh/zshrc
 symlink_if_not_present ~/.emacs $dotfilesdir/emacs/dotemacs.el
 symlink_if_not_present ~/.config/herbstluftwm $dotfilesdir/herbstluftwm
 symlink_if_not_present ~/.config/xchainkeys $dotfilesdir/xchainkeys

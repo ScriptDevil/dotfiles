@@ -4,3 +4,5 @@ source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/utils.zsh
 
 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

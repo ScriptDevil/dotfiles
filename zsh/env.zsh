@@ -25,11 +25,6 @@ setup_ibmjdk() {
   export JAVA_HOME=/scratch2/IBM_JDK/install
 }
 
-proxy()
-{
-    # The single quoting goodness of ZSH. Oh so delicious.
-    export HTTP_PROXY='http://cs10s019:P4$$word@hproxy.iitm.ac.in:3128'
-}
 
 refreshwifi() {
 	sudo modprobe -r rtl8192ce
